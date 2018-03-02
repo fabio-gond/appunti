@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Documento senza titolo</title>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+	<h1>Emmet</h1>
+	<p>E' un editor consistente nei vari IDE in cui è installabile.</p>
+	<p>Alcuni comandi potrebbe andare in conflitto con gli shortcut del proprio IDE perciò non funzionare.</p>
+	
+	<h2>Struttura base HTML5</h2>
+	<p>Usare la combinazione <b>html:5 + TAB</b></p>
+	
+	<h2>Completamento TAG e creazione veloce snippets</h2>
+	<p>Scrivendo una di queste combinazioni e cliccando TAB creerà automaticamente il codice relativo.</p>
+	<ul>
+		<li><b>div(o altro tag)</b> crea i tag di apertura e chiusura, spesso con già diversi attributi solitamente usati. (per esempio src nel tag img)</li>
+		<li><b>.classe</b> inserisce un div (se non inserisco nessun tag sceglie di creare un div) con la classe scelta.</li>
+		<li><b>#id</b> inserisce un div con l'id scelto.</li>
+		<li><b>img[name="gatto" id="img_gatto"]</b> crea un img con gli attributi inseriti tra parentesi quadre.</li>
+		<li><b>ul>li[class="thumbnail_$$"]*5</b> crea 5 li con classi "thumbnail_01", "thumbnail_02" e così via.</li>
+		<li><b>ul>li.thumbnail_$@3*5</b> crea 5 li con classi "thumbnail_3", "thumbnail_4" e così via.</li>
+		<li><b>div>ul>li</b> inserisce un div con all'interno un ul con all'interno un li</li>
+		<li><b>div>ul>li*4</b> inserisce un div con all'interno un ul con all'interno 4 li</li>
+		<li><b>{testo $}</b> inserisce il testo all'interno del tag usato e al posto di $ scrive un numero progressivo.</li>
+		<li><b>p+br</b> crea un tag p seguito da un tag br</li>
+		<li><b>p>l^p</b> ^ chiude il parent tag e crea un nuovo tag con quel che c'è dopo.</li>
+		<li><b>div>(p>l)+p</b> () servono per raggruppare una parte di codice.</li>
+		<li><b>p*5>lorem</b> crea 5 p con all'interno 5 <u>diversi</u> testi lorem ipsum</li>
+	</ul>
+	<p>Altre: <a href="https://docs.emmet.io/abbreviations/">docs.emmet.io/abbreviations/</a></p>
+	
+	<h2>CSS shortcuts</h2>
+	<p>Con queste (ed altre) combinazioni posso scrivere codice CSS più in fretta</p>
+	<ul>
+		<li><b>m0</b> crea <b>margin: 0;</b></li>
+		<li><b>m10em</b> crea <b>margin: 10em;</b></li>
+		<li><b>p5</b> crea <b>padding:5px;</b></li>
+		<li><b>p5-10-15-20</b> crea <b>padding:5px 10px 15px 20px;</b></li>
+		<li><b>p10px-5px</b> crea <b>padding:10px -5px;</b></li>
+		<li><b>w100p</b> crea <b>width:100%;</b></li>
+		<li><b>fz10</b> crea <b>font-size: 10px;</b></li>
+		<li><b>ttu</b> crea <b>text-transform: uppercase;</b></li>
+		<li><b>bgc</b> per il <b>background color</b></li>
+		<li><b>bgi</b> per <b>background image</b></li>
+		<li><b>posr</b> crea <b>position:relative;</b></li>
+		<li><b>lg(red, yellow)</b> crea il codice (anche per i diversi browser) per usare un gradiente come sfondo.</li>
+	</ul>
+	<p>Altri: <a href="https://docs.emmet.io/css-abbreviations/">https://docs.emmet.io/css-abbreviations/</a></p>
+	
+	<h2>Commentare parte di codice</h2>
+	<p>Inserire il cursore in un punto qualsiasi della riga e cliccare <b>CTRL + /</b> per commentare la riga corrente oppure selezionare tutto il codice da commentare e poi cliccare sempre <b>CTRL + /</b>. Nel CSS è meglio usare <b>CTRL + SHIFT + /</b> per commentare più righe. Ripremerlo per scommentare.</p>
+	
+	<h2>Spostarsi fra i vari tag</h2>
+	<p>Cliccare <b>CTRL + ALT + Freccia Destra</b> per andare al tag successivo</p>
+	
+	
+	
+	<div class="links">
+	  <ul>
+		<li><a href="https://docs.emmet.io/">Documentazione Ufficiale</a></li>
+		<li><a href="https://docs.emmet.io/cheat-sheet/">Cheat Sheet</a></li>
+		<li><a href="https://www.youtube.com/watch?v=d_IKhRsB7S8">Video Tutorial italiano Marchetti Design</a></li>
+		<li><a href="https://www.youtube.com/watch?v=EcN9dXYaERY">Video Tutorial Completo in Inglese</a></li>
+	  </ul>
+	</div>
+</body>
+</html>
