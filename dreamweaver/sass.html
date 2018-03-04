@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Documento senza titolo</title>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+	<h1>Linee Guida del linguaggio Sass</h1>
+	
+	<h2>Sintassi e Formattazione</h2>
+    <ul>
+        <li>Indentare con <b>2 spazi</b> invece che con il TAB.</li>
+        <li>Creare righe di massimo 80 caratteri</li>
+        <li>Scrivere ogni regola su una riga diversa.</li>
+    </ul>
+    
+    <h2>Codifica</h2>
+    <p>E' consigliabile forzare la codifica a UTF-8 con questo codice</p>
+    <pre class="code_block">@charset 'utf-8';</pre>
+	
+    <h2>Apici</h2>
+    <p>Per le stringhe non sarebbe necessario usare gli apici ma è altamente consigliabile farlo, utilizzando l'apice singolo.</p>
+    <p>Nel caso di stringhe che contengono apostrofi o comunque apici singoli possiamo usare i doppi apici.</p>
+    <p>Anche gli URL andrebbero messi tra apici.</p>
+    
+    <h2>Calcoli</h2> 
+    <p>Inserire sempre i calcoli tra parentesi per una corretta lettura.</p>
+    
+    <h2>Colori</h2>
+    <p>E' consigliato di scegliere questo ordine di preferenza per il formato colori:</p>
+    <ul>
+        <li>HSL</li>
+        <li>RGB</li>
+        <li>esadecimale (minuscolo e abbreviato)</li>
+    </ul>
+    
+    <h2>Colori e Variabili</h2>
+    <p>Il modo migliore per nominare le variabili relative ai colori è questo:</p>
+    <pre class="code_block">
+$sass-bright-red: hsl(330, 50%, 60%);
+$main-theme-color: $sass-pink;</pre>
+    <p>Per trovare il nome di un colore posso usare <a href="http://chir.ag/projects/name-that-color/#FFFFFF">Name that color</a>.</p>
+    
+    
+	
+	<div class="links">
+	  <ul>
+		<li><a href="https://sass-guidelin.es/it/">Linee Guida in italiano</a></li>
+	  </ul>
+	</div>
+</body>
+</html>
