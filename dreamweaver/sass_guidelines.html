@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Documento senza titolo</title>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+	<h1>Linee Guida del linguaggio Sass</h1>
+	
+	<h2>Sintassi e Formattazione</h2>
+    <ul>
+        <li>Indentare con <b>2 spazi</b> invece che con il TAB.</li>
+        <li>Creare righe di massimo 80 caratteri</li>
+        <li>Scrivere ogni regola su una riga diversa.</li>
+    </ul>
+    
+    <h2>Codifica</h2>
+    <p>E' consigliabile forzare la codifica a UTF-8 con questo codice</p>
+    <pre class="code_block">@charset 'utf-8';</pre>
+	
+    <h2>Apici</h2>
+    <p>Per le stringhe non sarebbe necessario usare gli apici ma è altamente consigliabile farlo, utilizzando l'apice singolo.</p>
+    <p>Nel caso di stringhe che contengono apostrofi o comunque apici singoli possiamo usare i doppi apici.</p>
+    <p>Anche gli URL andrebbero messi tra apici.</p>
+    
+    <h2>Calcoli</h2> 
+    <p>Inserire sempre i calcoli tra parentesi per una corretta lettura.</p>
+    
+    <h2>Colori</h2>
+    <p>E' consigliato di scegliere questo ordine di preferenza per il formato colori:</p>
+    <ul>
+        <li>HSL</li>
+        <li>RGB</li>
+        <li>esadecimale (minuscolo e abbreviato)</li>
+    </ul>
+    
+    <h3>Colori e Variabili</h3>
+    <p>Il modo migliore per nominare le variabili relative ai colori è questo:</p>
+    <pre class="code_block">
+$sass-bright-red: hsl(330, 50%, 60%);
+$main-theme-color: $sass-pink;</pre>
+    <p>Per trovare il nome di un colore posso usare <a href="http://chir.ag/projects/name-that-color/#FFFFFF">Name that color</a>.</p>
+    
+    <h3>Schiarire e Scurire</h3>
+	<p>Se ho una variabile di colore che è semplicemente un altro colore ma più scuro o chiaro, invece che inserire il codice del colore posso usare la variabiel del primo colore e scurirlo (o schiarirlo) con queste funzioni:</p>
+	<ul>
+		<li><code>lighten()</code> e <code>darken()</code> cambiano la luminosità di un colore nello spazio HSL ma non danno spesso il risultato sperato.</li>
+		<li><code>mix</code> mischia il colore con del bianco o nero ed è più graduale. Invece che scrivere sempre la funzione <code>mix</code> posso creare 2 funzioni (già presenti in compass) <code>tint</code> e <code>shade</code>.</li>
+		<li><code>scale-color</code> funziona in un modo simile a mix.</li>
+	</ul>
+	<pre class="code_block">
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+	</pre>
+	
+	<h2>Liste</h2>
+	
+	
+	<div class="links">
+	  <ul>
+		<li><a href="https://sass-guidelin.es/it/">Linee Guida in italiano</a></li>
+	  </ul>
+	</div>
+</body>
+</html>

@@ -7,47 +7,136 @@
 </head>
 
 <body>
-	<h1>Linee Guida del linguaggio Sass</h1>
+	<h1>Sass</h1>
+	<p>E' un preprocessore che aiuta a scrivere molto meno codice per creare un file CSS.</p>
 	
-	<h2>Sintassi e Formattazione</h2>
-    <ul>
-        <li>Indentare con <b>2 spazi</b> invece che con il TAB.</li>
-        <li>Creare righe di massimo 80 caratteri</li>
-        <li>Scrivere ogni regola su una riga diversa.</li>
-    </ul>
-    
-    <h2>Codifica</h2>
-    <p>E' consigliabile forzare la codifica a UTF-8 con questo codice</p>
-    <pre class="code_block">@charset 'utf-8';</pre>
+	<h2>Nesting</h2>
+	<p>Posso creare un selettore riferito ad un certo selettore "padre" all'interno del selettore "padre".</p>
+	<pre class="code_block">
+#box{
+	background-color:red;
 	
-    <h2>Apici</h2>
-    <p>Per le stringhe non sarebbe necessario usare gli apici ma è altamente consigliabile farlo, utilizzando l'apice singolo.</p>
-    <p>Nel caso di stringhe che contengono apostrofi o comunque apici singoli possiamo usare i doppi apici.</p>
-    <p>Anche gli URL andrebbero messi tra apici.</p>
-    
-    <h2>Calcoli</h2> 
-    <p>Inserire sempre i calcoli tra parentesi per una corretta lettura.</p>
-    
-    <h2>Colori</h2>
-    <p>E' consigliato di scegliere questo ordine di preferenza per il formato colori:</p>
-    <ul>
-        <li>HSL</li>
-        <li>RGB</li>
-        <li>esadecimale (minuscolo e abbreviato)</li>
-    </ul>
-    
-    <h2>Colori e Variabili</h2>
-    <p>Il modo migliore per nominare le variabili relative ai colori è questo:</p>
-    <pre class="code_block">
-$sass-bright-red: hsl(330, 50%, 60%);
-$main-theme-color: $sass-pink;</pre>
-    <p>Per trovare il nome di un colore posso usare <a href="http://chir.ag/projects/name-that-color/#FFFFFF">Name that color</a>.</p>
-    
-    
+	header {
+		color:black;
+		
+		h1{
+			color:yellow;
+		}
+	}
+}
+	</pre>
+	<p>Ci son diverse correnti di pensiero, ma tutti consigliano di non andare oltre i 3 livelli di nesting (molti consigliano di usarne emno, fin ad arrivare a non usarli proprio). E' quindi molto importante <b>evitare nesting non necessari</b>.</p>
+	
+	<h2>Selettore &</h2>
+	<p>All'interno di un nesting si riferisce al selettore padre.</p>
+	<pre class="code_block">
+a{
+	color:blue;
+	
+	&:hover{
+		color:red;
+	}
+}	
+	</pre>
+	<p>Posso anche usare un selettore prima del &.</p>
+	<pre class="code_block">
+.rosso{
+	color:red;
+	#special & a{
+		color:blue;
+	}
+}	
+	</pre>
+	
+	<h2>@extend</h2>
+	<p>Serve per estendere il codice di un selettore.</p>
+	<pre class="code_block">
+.info{
+	width:500px;
+	height:300px;
+}	
+
+.success{
+	@extend .info;
+	background-color:green;
+}
+	</pre>
+	
+	<h2>Variabili</h2>
+	<pre class="code_block">
+$primary_color:#F00;
+#box {
+	background-color: $primary_color;
+}
+	</pre>
+	
+	<h2>Funzioni</h2>
+	<p>Sass ha già delle funzioni interne ed è anche possibil crearne delle nuove</p>
+	<pre>	
+#box {
+	color: darken($p_color, 20%);
+}	
+	</pre>
+	<p><a href="">Qui</a> posso vedere tutte le funzioni presenti in Sass.</p>
+	
+	<h3>Creare una propria funzione</h3>
+	<pre>
+$space=500px;
+@function increment($value){
+	$value: $value + 100;
+	@return $value;
+}	
+
+#box {
+	width=increment( $space );
+}
+	</pre>
+	
+	<h2>Mixin</h2>
+	<p>Serve per salvare un blocco di istruzioni e riusarlo.</p>
+	<pre>
+@mixin alert_box($color){
+	@extend .box;
+	border-color: $color;
+	color: white;
+	a {
+		text_decoration: underline;
+	}
+}	
+
+.success{
+	@include alert_box ($success_color);
+}
+	</pre>
+	
+	<h2>Importazione</h2>
+	<pre class="code_block">@import "mio-file";</pre>
+	<p>(Non inserisco il tipo di file)</p>
+	<p>Se il file importato è un css allora verrà semplicemente creata la riga di import all'interno del css compilato, ma se il file che importiamo è un file di Sass allora verrà direttamente inserito il codice compilato del file importato all'interno del nuovo foglio di stile.</p>
+	
+	<h2>Non compiloare file</h2>
+	<p>Se creo un file di Sass che verrà poi importato all'interno di un altro foglio di stile, potrei non voler che venga compilato dato che mi creerebbe un inutile file css che non verrà mai usato dal mio sito.</p>
+	<p>In questo caso devo usare un underscore "_" come prefisso del mio file Sass che si chaimerà quindi <b>_mio-file.scss</b>.</p>
+	<p>Quando importo il mio file <b>non dovrò</b> inserire anche l'underscore quindi lo importerò con il codice <code>@import "mio-file"</code>.</p>
+	
+	<h2>Media Queries</h2>
+	<pre>
+@media only screen and (min-width: 481px){
+	h1{
+		font-size:18px;
+	}
+}	
+	</pre>
+	
+	<h2>Compass</h2>
+	<p>E' una libreria di Mixin già pronti.</p>
+	<p><a href="http://compass-style.org/">www.compass-style.org</a></p>
+	
+	
 	
 	<div class="links">
 	  <ul>
-		<li><a href="https://sass-guidelin.es/it/">Linee Guida in italiano</a></li>
+		<li><a href="https://docs.emmet.io/">Documentazione Ufficiale</a></li>
 	  </ul>
 	</div>
 </body>
