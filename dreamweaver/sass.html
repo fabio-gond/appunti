@@ -61,6 +61,22 @@ a{
 	background-color:green;
 }
 	</pre>
+    <p>ATTENZIONE: il selettore che estende avrà gli stessi vincoli del selettore esteso!</p>
+    <pre class="code_block">
+.foo > .bar { some code;}
+.baz { @extend .bar;}
+    </pre>
+    <p>Questo codice produrrà <code>.foo > .bar, .foo > .baz</code>.</p>
+    <br>
+    <p>Alcune regole importanti:</p>
+    <ul>
+        <li>Estendi un <code>@placeholder</code> invece che un selettore reale quando possibile.</li>
+        <li>Se estendi una classe, estendila con un altro selettore di classe, mai con un selettore complesso</li>
+        <li>Evita di estendere selettori discendenti generici <code>.foo .bar </code>selettori adiacenti generici <code>.foo ~ .bar</code>.</li>
+        <li>Per riassumere: consiglio di usare @extend solo per mantenere le relazioni tra selettori. Se due selettori hanno funzionalità simili, è il caso perfetto per usare @extend. Se invece condividono delle regole non correlate tra loro, un @mixin potrebbe fare al caso vostro.</li>
+    </ul>
+    
+    
 	
 	<h2>Variabili</h2>
 	<pre class="code_block">
@@ -114,10 +130,16 @@ $space=500px;
 	<p>(Non inserisco il tipo di file)</p>
 	<p>Se il file importato è un css allora verrà semplicemente creata la riga di import all'interno del css compilato, ma se il file che importiamo è un file di Sass allora verrà direttamente inserito il codice compilato del file importato all'interno del nuovo foglio di stile.</p>
 	
-	<h2>Non compiloare file</h2>
-	<p>Se creo un file di Sass che verrà poi importato all'interno di un altro foglio di stile, potrei non voler che venga compilato dato che mi creerebbe un inutile file css che non verrà mai usato dal mio sito.</p>
+	<h2>Partials (e come non compilare file)</h2>
+	<p>Se creo un file di Sass che verrà poi importato all'interno di un altro foglio di stile (partial) non voglio che venga compilato dato che mi creerebbe un inutile file css che non verrà mai usato dal mio sito.</p>
 	<p>In questo caso devo usare un underscore "_" come prefisso del mio file Sass che si chaimerà quindi <b>_mio-file.scss</b>.</p>
 	<p>Quando importo il mio file <b>non dovrò</b> inserire anche l'underscore quindi lo importerò con il codice <code>@import "mio-file"</code>.</p>
+	<pre>
+@import "variables";	
+@import "header";	
+@import "pages";	
+@import "footer";		
+	</pre>
 	
 	<h2>Media Queries</h2>
 	<pre>
@@ -128,15 +150,122 @@ $space=500px;
 }	
 	</pre>
 	
-	<h2>Compass</h2>
-	<p>E' una libreria di Mixin già pronti.</p>
+	<h2>Altro</h2>
+	<h3>Liste</h3>
+	<p>Sono gli array di Sass.</p>
+	<pre class="code_block">
+$list: 'item-1', 'item-2', 'item-3';
+
+$list: (
+   ('item-1.1', 'item-1.2', 'item-1.3'),
+   ('item-2.1', 'item-2.2', 'item-2.3'),
+   ('item-3.1', 'item-3.2', 'item-3.3')
+);
+	</pre>
+	<p>Per inizializzarlo ad array vuoto si usa <code>$list: ();</code></p>
+	<p><b>L'index parte da 1.</b></p>
+	<br>
+	<p>Ogni valore in Sass è trattato come una lista di un solo elemento.</p>
+	<pre class="code_block">
+$variable: "Sass is awesome";
+length($variable) -> 1	
+	</pre>
+	<p>Per accedere ad una lista si usa <code>nth()</code> e se usiamo un numero negativo come index verrà preso l'elemento corrispondente ordinando la lista al contrario, quindi per esempio con -2 prendo il penultimo elemento della lista.</p>
+	<pre class="code_block">
+$value: nth($list, 1);	
+	</pre>
+	<p><a href="http://clubmate.fi/lists-in-sass-syntax-and-use-cases-with-examples/">Altro sulle liste</a></p>
+	
+	<h3>Mappe</h3>
+	<p>Sono gli array associativi di Sass.</p>
+	<pre class="code_block">
+$profili: (
+  facebook: #3b5998,
+  google: #dd4b39,
+  twitter: #00aced,
+  pinterest: #cb2027
+);	
+	</pre>
+	<p>Posso leggere un valore preciso con <code>map-get($map, $key)</code> oppure tutta la mappa con un ciclo <code>@each</code>.</p>
+	<pre class="code_block">
+@each $profilo, $bg-color in $profili{
+  .profile-link--#{$profilo}:hover{
+    background-color: $bg-color;
+  }
+}	
+	</pre>
+	<p>Per altro sulle mappe: <a href="https://skillsandmore.org/data-maps-sass/">articolo in italiano</a>, <a href="http://clubmate.fi/sass-maps-syntax-examples-and-good-things/">guide in inglese</a>.</p>
+    
+    <h3>If, else e cicli</h3>
+    <p>Funzione if</p>
+    <pre class="code_block">
+h2 {
+   color: if( 1 + 1 == 2 , green , red);
+}    
+    </pre>
+    <p>Direttiva @if</p>
+    <pre class="code_block">
+$other: single;
+
+@if $other == single {
+  // Code for if it’s single
+} @else if $other == double {
+  // Double code
+} @else {
+  // Default if it’s neither
+}  
+    </pre>
+    <p>Cicli For, while, each</p>
+    <pre class="code_block">
+@for $i from 1 through 8 {
+    $width: percentage(1 / $i)
+
+    .col-#{$i} {
+        width: $width;
+    }
+} 
+    </pre>
+    <pre class="code_block">
+@while $num > 0 {
+    .module-#{$num} {
+        content: "#{$num}";
+    }
+
+    $num: $num - 1;
+}    
+    </pre>
+    <pre class="code_block">
+$list: arnold sylvester dolf jean chuck
+
+@mixin author-imgs {
+  @each $manly-man in $list
+    .photo-#{$manly-man} {
+        background: image-url("avatars/#{$manly-man}.png") no-repeat;
+    }
+}
+
+.author-bio {
+    @include author-imgs();
+}    
+    </pre>
+    
+    
+    
+    <p><a href="http://clubmate.fi/for-while-and-each-loops-in-sass/">Guida cicli in Sass</a></p>
+	
+    
+	<h2>Compass e mixin</h2>
+	<p>Compass ha diversi mixin già inclusi. In Dreamweaver c'è già Compass ma devo cercare come usarlo.</p>
 	<p><a href="http://compass-style.org/">www.compass-style.org</a></p>
+	
+	
 	
 	
 	
 	<div class="links">
 	  <ul>
-		<li><a href="https://docs.emmet.io/">Documentazione Ufficiale</a></li>
+		  <li><a href="https://www.youtube.com/watch?v=nQ6CNJjn1Ec&list=PLG15PAKlF52voH1Dpy7jq4Qw2EVHrvDWG">Video guida in Italiano</a></li>
+		  <li><a href="https://www.youtube.com/watch?v=PrYCws3XH28&list=PLU8MyGM9SGS89SIfz6MJjyVf1D54Bvwiu">Altra video guida Italiano</a></li>
 	  </ul>
 	</div>
 </body>

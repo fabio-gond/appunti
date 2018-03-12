@@ -59,10 +59,167 @@ $main-theme-color: $sass-pink;</pre>
   @return mix(black, $color, $percentage);
 }
 	</pre>
-	
-	<h2>Liste</h2>
-	
-	
+    
+    <h2>Organizzare le regole CSS</h2>
+    <p>Le regole CSS si possono organizzare in modo alfabetico ma pochi lo fanno perchè poco leggibile, oppure <b>in base al tipo</b> di dichiarazione(position,display,colori,font...) come la maggior parte degli sviluppatori fa, oppure infine a caso come ancora molti sviluppatori continuano a fare.</p>
+    <p>2 interessanti convenzioni molto usate per ordinare le regole in base al tipo sono <a href="https://github.com/necolas/idiomatic-css">Idiomatic CSS</a> e <a href="https://github.com/brandon-rhodes/Concentric-CSS">Concentric-CSS</a>.</p>
+    <p>Esistono anche siti che organizzano un foglio CSS automaticamente come <a href="http://www.styleneat.com/">Styleneat</a>.</p>
+    
+    <h2>Convenzione sui Nomi</h2>
+    <p>Per classi, mixin, variabili e funzioni si usa sempre il <b>minuscolo separato da trattino</b>.</p>
+    <p>In Sass non c'è la possibilità di definire delle costanti perciò è bene usare una convenzione precisa in modo da riconoscere subito una variabile che vorremo usare come costante. La convenzione è quella di scrivere le <b>costanti in maiuscolo con il trattino basso</b> come separatore.</p>
+	<p>Una buona convenzione per dare i nomi alla classi è <a href="https://cssguidelin.es/#naming-conventions">questa</a>.</p>
+    
+    <h2>Commenti</h2>
+    <p>E' importante commentare il più possibile e, idealmente, tutto quel che non è subito capibile andrebbe commentato.</p>
+    <p>I commenti <b>inline non vengono salvati nel file CSS finale</b>, invece i commenti in blocco si.</p>
+    <pre class="code_block">
+ // Add current module to the list of imported modules.  
+ 
+ /**
+ * Helper class to truncate and add ellipsis to a string too long for it to fit
+ * on a single line.
+ * 1. Prevent content from wrapping, forcing it on a single line.
+ * 2. Add ellipsis at the end of the line.
+ */
+ .ellipsis {
+  white-space: nowrap; /* 1 */
+  text-overflow: ellipsis; /* 2 */
+  overflow: hidden;
+}
+    </pre>
+    <p>Per la documentazione si può usare <a href="http://sassdoc.com/">SassDoc</a>.</p>
+    
+    <h2>Architettura</h2>
+	<p>E' possibile scegliere tra molti modi per organizzare un progetto CSS come per esempio OOCSS, SMACSS, Atomic Design e altri, ma l'importante è essere costanti in tutto il progetto.</p>
+    
+    <h2><h2>Il Pattern 7-1</h2>
+    <p>Un buon approccio per quanto riguarda l'architettura è il pattern 7-1, cioè 7 cartelle ed 1 file.</p></h2>
+    <ul>
+        <li>
+            <b>base/</b> contiene in pratica il codice boilerplate del progetto.
+            Qui si trova il file di reset, alcune regole tipografiche e _base.scss per alcuni stili standard per elementi HTML comunemente usati.
+            Se nel progetto si usano molte animazioni si potrebbe inserire anche il file _animations con le definizioni @keyframes, altrimenti meglio scriverle solo nei selettori che le usano.
+        </li>
+        <li><b>layout/</b> contiene tutto quel che crea i layout del sito. In questa cartella si trovano i blocchi principali del sito (header, footer, navigation, sidebar..), la griglia, le regole CSS per i form.</li>
+        <li><b>components/</b> contiene i piccoli componenti o widget, tutti moduli specifici come uno slider, loader e cosi via. </li>
+        <li><b>themes/</b> contiene diversi temi se necessario.</li>
+        <li><b>abstracts/</b> contiene le variabili globali, funzioni, mixin, placeholder e altri strumenti.</li>
+        <li><b>vendors/</b> contiene file da librerie e framework esterni, come Normalize, Bootstrap, JQuery e così via.Se c’è da sovrascrivere una parte di qualche file Vendor, meglio inserire una cartella vendors-extensions/ nella quale inserisco file con lo stesso nome e con le modifiche da sovrascrivere.</li>
+        <li><b>pages/</b> serve se ho stili particolari per una certa pagina.</li>
+        <li><b>main.scss</b> contiene</li>
+    </ul>
+    <pre class="code_block">
+sass/
+|
+|– abstracts/
+|   |– _variables.scss    # Sass Variabili
+|   |– _functions.scss    # Sass Funzioni
+|   |– _mixins.scss       # Sass Mixins
+|   |– _placeholders.scss # Sass Placeholders
+|
+|– base/
+|   |– _reset.scss        # Reset/normalize
+|   |– _typography.scss   # Regole di tipografia
+|   …                     # Etc.
+|
+|– components/
+|   |– _buttons.scss      # Bottoni
+|   |– _carousel.scss     # Carousel
+|   |– _cover.scss        # Cover
+|   |– _dropdown.scss     # Dropdown
+|   …                     # Etc.
+|
+|– layout/
+|   |– _navigation.scss   # Navigazione
+|   |– _grid.scss         # Griglia
+|   |– _header.scss       # Header
+|   |– _footer.scss       # Footer
+|   |– _sidebar.scss      # Sidebar
+|   |– _forms.scss        # Forms
+|   …                     # Etc.
+|
+|– pages/
+|   |– _home.scss         # Stili specifici per la Home
+|   |– _contact.scss      # Stili specifici per la pagina Contact
+|   …                     # Etc.
+|
+|– themes/
+|   |– _theme.scss        # Tema di default
+|   |– _admin.scss        # Tema admin
+|   …                     # Etc.
+|
+|– vendors/
+|   |– _bootstrap.scss    # Bootstrap
+|   |– _jquery-ui.scss    # jQuery UI
+|   …                     # Etc.
+|
+`– main.scss              # File principale    
+    </pre>
+    
+    
+    
+    <h2>Componenti</h2>
+    <p>Per non creare file CSS troppo pesanti e mantenere una buona manutenibilità del nostro codice in tutto il progetto, è bene pensare all'interfaccia come ad un insieme di componenti.</p>
+    <p>Tutto può essere un componente, e le sue caratteristiche sono:</p>
+    <ul>
+        <li>fa una e una sola cosa</li>
+        <li>è riutilizzabile e riusato nel progetto</li>
+        <li>è il più possibile indipendente dalla sua posizione nel DOM (header,footer..) o da altro.</li>
+    </ul>
+    <p>Il modo migliore per organizzare i componenti del nostro progetto è creare la cartella <code>components/</code> all'interno della quale inseriamo una partial Sass per ogni componente come per esempio <code>_button.scss</code>.</p>
+    <p>Le uniche cose che dovrebbe includere lo stile in questo file sono:</p>
+    <ul>
+        <li>lo stile del componente</li>
+        <li>lo stile delle sue variazioni</li>
+        <li>lo stile dei suoi discendenti se necessario</li>
+    </ul>   
+    <p>Esempio parziale di un componente:</p>
+    <pre class="code_block">
+// Button-specific variables
+$button-color: $secondary-color;
+
+// … include any button-specific:
+// - mixins
+// - placeholders
+// - functions
+
+/**
+ * Buttons
+ */
+.button {
+  @include vertical-rhythm;
+  display: block;
+  padding: 1rem;
+  color: $button-color;
+  // … etc.
+
+  /**
+   * Inlined buttons on large screens
+   */
+  @include respond-to('medium') {
+    display: inline-block;
+  }
+}
+
+/**
+ * Icons within buttons
+ */
+.button > svg {
+  fill: currentcolor;
+  // … etc.
+}
+
+/**
+ * Inline button
+ */
+.button--inline {
+  display: inline-block;
+}    
+    </pre>
+    
+    
+    
 	<div class="links">
 	  <ul>
 		<li><a href="https://sass-guidelin.es/it/">Linee Guida in italiano</a></li>
