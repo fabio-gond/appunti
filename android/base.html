@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Documento senza titolo</title>
+  <base href="">
+	<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+	<h1>Android Basic Concepts</h1>
+	
+  <!--
+      | Android Architecture
+  -->
+	<h2>Android Architecture</h2>
+  <p>Android è uno stack software open-source basato su Linux.</p>
+  <img src="../assets/img/android/android-architecture.png" width="500px" alt="Android Architecture">
+  
+  <h3>Applications - Livello Applicativo</h3>
+  <p>Qui vengoono create tutte le applicazioni e vengono eseguite utilizzando le classi e i servizi dell'Application Framework.</p>
+  
+  <h3>JAVA Application Framework</h3>
+  <p>Classi per la creazione di applicazioni Android. Serve per astrarre l'accesso all'hardware e alle risorse.</p>
+  <ul>
+    <li>
+      <p>View System</p>
+      <p>Tutte le view come text, grid, list, buttons etc..</p>
+    </li>
+    <li>
+      <p>Resource Manager</p>
+      <p>Per accedere a tutti i file delle risorse.</p>
+    </li>
+    <li>
+      <p>Notification Manager</p>
+      <p>Per creare gli alert nella barra di stato.</p>
+    </li>
+    <li>
+      <p>Activity Manager</p>
+      <p>Gestisce il lifecycle delle app e fornisce il <b>navigation back stack</b>, cioè lo stack in cui vengono inserite tutte le activities con cui l'utente ha interagito e da cui vengono richiamate quando l'utente clicca il tasto indietro.</p>
+    </li>
+    <li>
+      <p>Content Providers</p>
+      <p>Gestiscono l'acceso ai dati immagazzinati dall'applicazione stessa o da altre app, e forniscono la possibilità di condividere dati con altre app. In pratica crea un livello in più di astrazione tra il database e le applicazioni. In questo modo se voglio per esempio cambiare il mio database da SQLite ad altro non devo modificare il collegamento in tutte le app, ma solo del content provider.</p>
+    </li>
+  </ul>
+  
+  <h3>Libraries</h3>
+  <p>Librerie native scritte in C/C++. Componenti che interagiscono
+    sia con la parte più bassa del sistema operativo che con la parte più alta. Si occupano di integrazione di web browser, internet security, mediaplayer, gestione di database etc..</p>
+  
+  <h3>Android Runtime</h3>
+  <p>E' il motore del sistema e insieme alle librerie, forma la base dell'Application Framework. Differenzia un dispositivo Android da uno basato su un sistema Linux.</p>
+  <ul>
+    <li>Core Libraries</li>
+    <li>Dalvik Virtual Machine / ART (Sostituisce Dalvik da Android 4.4) - Serve per eseguire virtual machine multiple eseguendo dei file DEX.</li>
+  </ul>
+  
+  <h3>Hardware Abstraction Layer</h3>
+  <p>Diversi moduli di librerie, ognuno dei quali implementa un interfaccia per uno specifico componente hardware. Quando una API fa una chiamata per accedere ad un componente hardware, il sistema Android carica il modulo di librerie collegato a quel componente.</p>
+  
+  <h3>Linux Kernel</h3>
+  <p>Moduli e componenti che fanno funzionare il dispositivo. I vari driver,. componenti network e security, power management.</p>
+  
+  <!--
+      | Android SDK
+  -->
+	<h2>Android SDK (Software Developer Kit)</h2>
+  <p>Un insieme di tools indispensabili per costruire, testare e effettuare il debug delle applicazioni Android, gestiti tramite l'Android SDK Manager avviabile dall'IDE utilizzato.</p>
+  <p>Il <b>compilatore</b> è un componente che traduce il codice di programmazione in codice bytecode che poi sarà eseguito dall'ART.</p>
+  <p>Nell'Android SDK sono presenti poi le API di Google.</p>
+	
+  <!--
+      | Components
+  -->
+  <h2>I componenti</h2>
+  
+  <h3>View, GroupView e Layout</h3>
+  <p>La View, solitamente chiamata widget, è una classe base dell'interfaccia utente che costituisce un blocco con cui solitamente l'utente può interagire.
+  Alcune delle più comuni View sono Button, TextView, ImageView, EditText, ListView.</p>
+  <p>Il ViewGroup è una View speciale che ne può contenere altre definendone la struttura. Un esempio è il RadioGroup.</p>
+  <p>Il Layout è un ViewGroup che ha il solo scopo di controllare il posizionamento delle sue child View sullo schermo. Alcuni Layout comuni sono Linear Layout, Relative Layout, Constrain Layout, Web View.</p>
+  
+  <!--
+      | Activities and Fragments
+  -->
+  <h3>Activities e Fragments</h3>
+  
+  <h4>Activities</h4>
+  <p>La Activity è l'entry port per far interagire l'utente con l'app e per la navigazione all'interno dell'applicazione e tra app diverse.</p>
+  <p>Rappresenta una singola vista dell'applicazione ed al suo interno contiene una o più View. Le activities comunicano fra di loro tramite gli <b>Intent</b>.</p>
+  <img src="../assets/img/android/activity-lifecycle.png" alt="activity lifecycle" />
+  <p>La activity passa attraverso diversi stati. Per gestire le transizioni tra stati si utilizzano una serie di callback.</p>
+  <ul>
+    <li><b>onCreate()</b> l'activity è stata creata ed è il momento di inizializare i componenti essenziali della activity, e di chiamare <code>setContentView() per associare il layout a questa activity.</code> </li>
+    <li><b>onStart()</b> l'activity è stata creata ed è visualizzata all'utente.</li>
+    <li><b>onResume()</b> richiamata subito prima che l'activity cominci ad interagire con l'utente. L'activity si trova al top dell'activity stack e cattura tutti gli input dell'utente. Interessante link sulla <a href="https://stackoverflow.com/questions/4553605/difference-between-onstart-and-onresume">differenza tra onResume() e onStart()</a></li>
+    <li><b>onPause()</b> l'utente ha cliccato Back o altri Buttons che fanno perdere il focus alla activity. Dopo questa c'è sempre onResume() o onStop() a seconda di cosa fa l'utente.</li>
+    <li><b>OnStop()</b> l'activity non è più visibile all'utente. Può essere in fase di distruzione, o magari una nuova activity sta iniziando. Dopo questa c'è onRestart() o onDestroy() a seconda che l'activity ritorni disopnibile all'utente o venga distrutta.</li>
+    <li><b>onRestart()</b> l'activity viene resa di nuovo disponibile all'utente dopo essere stata stoppata.</li>
+    <li><b>onDestroy()</b> subito prima che l'activity venga distrutta.</li>
+  </ul>
+  
+  <h4>Fragments</h4>
+  <p>Il Fragment rappresenta un comportamento o una parte UI di una Activity, una specie di sub-Activity che però ha un suo ciclo di vita.</p>
+  <p><b>Non può esistere senza una Activity</b> ed il suo lifecycle è fortemente collegato a quello dell'Activity di appartenenza.</p>
+  <img src="../assets/img/android/fragment-lifecycle.png" alt="fragment lifecycle" />
+  <ul>
+    <li><b>onAttach()</b> il Fragment è stato associato all'Activity di appartenenza. Attenzione che a quel punto l’Activity non è stata ancora creata quindi si può solo conservare un riferimento ad essa ma non interagirvi.</li>
+    <li><b>onCreate()</b> il Fragment è stato creato. Qui inizializzo componenti essenziali che voglio conservare quando il fragment è in pausa o stoppato.</li>
+    <li><b>onCreateView()</b> È il momento in cui viene creato il layout del Fragment. Solitamente qui si fa uso del LayoutInflater per associare il fragment alla vista corrispondente (nel caso il fragment debba avere una interfaccia grafica).</li>
+    <li><b>onActivityCreated()</b> segnala che la creazione dell’Activity è stata completata, vi si può interagire in tutto e per tutto.</li>
+  </ul>
+  
+  
+  <!--
+      | Services
+  -->
+  <h3>Services</h3>
+  <p>Un service è un component che funziona in background senza la diretta interazione con l'utente.</p>
+  <ul>
+    <li><b>Foreground</b> performa delle operazioni che vengono notificate all'utente. Per esempio una audio app userà un foreground service per riprodurre una traccai audio.</li>
+    <li><b>Background</b> performa operazioni che non vengono direttamente notificate all'utente, come per esempio un app può usare un service per compattare il suo storage.</li>
+    <li><b>Bound</b> è un service a cui un componente si è legato tramite bindService(). Fornisce un'interfaccia client-server che permette ai componenti di interagire con il service inviando request e ricevendo results. Più componenti possono legarsi ad un solo service ma quando tutti i componenti si sono slegati il service viene distrutto.</li>
+  </ul>
+  
+  <!--
+      | Content Providers
+  -->
+  <h3>Content Providers</h3>
+  
+  <!--
+      | Broadcast Receivers
+  -->
+  <h3>Broadcast Receivers</h3>
+  <p>Le app Android posso inviare e ricevere dei messaggi di broadcast dall'Android System e da altre app.</p>
+  
+	
+	<div class="links">
+	  <ul>
+		<li><a href="https://www.youtube.com/watch?v=fKwX-rkBdgk&list=PLttcEXjN1UcGCqy19JB2nnaqmKWWKNYAF">Video Corso su youtube</a></li>
+	  </ul>
+	</div>
+</body>
+</html>
