@@ -133,7 +133,18 @@
       | Broadcast Receivers
   -->
   <h3>Broadcast Receivers</h3>
-  <p>Le app Android posso inviare e ricevere dei messaggi di broadcast dall'Android System e da altre app.</p>
+  <p>I broadcast sono messaggi inviati solitamente dall'Android System ma anche da un app, senza un destinatario preciso. Ogni app può poi intercettare questi messaggi.</p>
+  <p>Alcuni esempi sono il messaggio relativo all'attivazione o disattivazione della modalità aereo, una power bank connessa, lo schermo che si spegne/accende, la batteria che è quasi scarica.</p>
+  <p>I broadcast vengono inviati tramite intent e vengono intercettati da un app tramite un Broadcast Receiver.</p>
+  <p>Non hanno un interfaccia utente come le activities ma possono creare una notifica nella status bar.</p>
+  <p>Per registrare l'intenzione di ricevere un certo messaggio di broadcast bisogna inserire un intent filter nel manifest file, oppure lo si può fare dinamicamente.</p>
+  
+  
+  <!--
+      | User Inputs
+  -->
+  <h3>User Inputs</h3>
+  <p>I componenti che si usano per poter far interagire l'utente con l'app sono: Button, Text field, Seek bar (tipo barra di avanzamento canzone), Checkboxes, Radio buttons, Toggle (pulsante on/off), Spinner (menu a tendina), Pickers (tipo time pickers).</p>
   
 	
 	<div class="links">
