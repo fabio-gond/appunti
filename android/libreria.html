@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Roba Interessante a proposito di programmazione Android</title>
+<base href="">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+  <h1>Libreria Android</h1>
+  
+  <!--
+      | 
+      | Riproduzione Audio Files
+      |
+  -->
+  
+  <h2>Riproduzione Audio Files</h2>
+  <p>Ricordarsi di seguire questi passi.</p>
+  
+  <h3>Inserire i file nella cartella Raw</h3>
+  <p>Creare cartella <a href="http://abhiandroid.com/androidstudio/create-raw-folder-android-studio.html"><b>raw</b></a> in cui inserire i file audio. Bisogna creare una cartella normale, non c'è più tra le cartelle di resource.</p>
+  
+  <h3>Usare la classe MediaPlayer</h3>
+  <p>Usare la classe <a href="http://www.tutorialspoint.com/android/android_mediaplayer.htm"><b>MediaPlayer</b></a> per riprodurre i file.</p>
+  <p>Ricordarsi di fare il <b>release()</b> del MediaPlayer prima di assegnargli un nuovo audio, dopo averlo riprodotto,
+    e in <code>onStop()</code> se voglio che smetta di suonare quando l'utente apre un altra app.</p>
+  <div class="code_block"><code><pre>
+private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        releaseMediaPlayer();
+    }
+};
+    
+/**
+ * Clean up the media player by releasing its resources.
+ */
+private void releaseMediaPlayer() {
+    // If the media player is not null, then it may be currently playing a sound.
+    if (mediaPlayer != null) {
+        // Regardless of the current state of the media player, release its resources
+        // because we no longer need it.
+        mediaPlayer.release();
+
+        // Set the media player back to null. For our code, we've decided that
+        // setting the media player to null is an easy way to tell that the media player
+        // is not configured to play an audio file at the moment.
+        mediaPlayer = null;
+
+        // Release audio focus
+        audioManager.abandonAudioFocus(afChangeListener);
+    }
+}  
+  </pre></code></div>
+  
+  <h3>Controllare l'Audio Focus</h3>
+  <p>Creare un Audio Manager e usare <a href="https://medium.com/google-developers/how-to-properly-handle-audio-interruptions-3a13540d18fa"><b>onAudioFocusChangeListener()</b></a> per controllare la perdita di focus dovuta per esempio al ricevere una telefonata durante la riproduzione audio.</p>
+  <p>Prima di far partire il file audio devo creare una Audio Focus Request per richiedere il focus.</p>
+  
+  <div class="code_block"><code><pre>
+// Create the audiomanager
+        audioManager = (AudioManager) this.getSystemService(this.AUDIO_SERVICE);
+
+/**
+ * Listener to control the audio focus changes
+ */
+
+private AudioManager.OnAudioFocusChangeListener afChangeListener =
+    new AudioManager.OnAudioFocusChangeListener() {
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    // Pause playback because your Audio Focus was
+                    // temporarily stolen, but will be back soon.
+                    // i.e. for a phone call
+                    mediaPlayer.pause();
+                    mediaPlayer.seekTo(0);
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    // Stop playback, because you lost the Audio Focus.
+                    // i.e. the user started some other playback app
+                    // Remember to unregister your controls/buttons here.
+                    // And release the kra — Audio Focus!
+                    // You’re done.
+                    releaseMediaPlayer();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    // Lower the volume, because something else is also
+                    // playing audio over you.
+                    // i.e. for notifications or navigation directions
+                    // Depending on your audio playback, you may prefer to
+                    // pause playback here instead. You do you.
+                    mediaPlayer.pause();
+                    mediaPlayer.seekTo(0);
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    // Resume playback, because you hold the Audio Focus
+                    // again!
+                    // i.e. the phone call ended or the nav directions
+                    // are finished
+                    // If you implement ducking and lower the volume, be
+                    // sure to return it to normal here, as well.
+                    mediaPlayer.start();
+                    break;
+            }
+        }
+    };  
+        
+// Request the audio focus before to start playing a new audio
+int result= audioManager.requestAudioFocus(afChangeListener,audioManager.STREAM_MUSIC,audioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+// If we granted the audio focus we can start the audio file
+if(result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+    releaseMediaPlayer();
+    mediaPlayer = MediaPlayer.create(WordsListActivity.this, words.get(i).getAudioResourceId());
+    mediaPlayer.setOnCompletionListener(completionListener);
+    mediaPlayer.start();
+}    
+  </pre></code></div>
+  
+  <h3>Controllare eventi esterni</h3>
+  <p>Creare un Broadcast Receiver che intercetti il messaggio di broadcast <a href="https://developer.android.com/guide/topics/media-apps/volume-and-earphones.html#volume-controls"><b>ACTION_AUDIO_BECOMING_NOISY</b></a> per controllare quando per esempio le cuffie, o altro dispositivo di riproduzione audio, viene scollegato dallo smartphone. In questo caso bisogna o abbassare il volume o mettere in pausa il file audio in riproduzione.</p>
+  
+  
+  <div class="links">
+    <ul>
+      <li><a href="https://www.youtube.com/watch?v=fKwX-rkBdgk&list=PLttcEXjN1UcGCqy19JB2nnaqmKWWKNYAF">Video Corso su youtube</a></li>
+    </ul>
+  </div>
+</body>
+</html>

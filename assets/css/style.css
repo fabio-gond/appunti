@@ -17,6 +17,7 @@ h2 {
 
 /* line 19, style.scss */
 .code_block {
+  margin: 10px 0;
   width: 100%;
-  padding: 20px;
+  padding: 10px 20px;
   background: #eee; }

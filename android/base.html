@@ -11,7 +11,9 @@
 	<h1>Android Basic Concepts</h1>
 	
   <!--
-      | Android Architecture
+      |
+      | ANDROID ARCHITECTURE
+      |
   -->
 	<h2>Android Architecture</h2>
   <p>Android è uno stack software open-source basato su Linux.</p>
@@ -63,7 +65,9 @@
   <p>Moduli e componenti che fanno funzionare il dispositivo. I vari driver,. componenti network e security, power management.</p>
   
   <!--
-      | Android SDK
+      |
+      | ANDROID SDK
+      |
   -->
 	<h2>Android SDK (Software Developer Kit)</h2>
   <p>Un insieme di tools indispensabili per costruire, testare e effettuare il debug delle applicazioni Android, gestiti tramite l'Android SDK Manager avviabile dall'IDE utilizzato.</p>
@@ -71,7 +75,9 @@
   <p>Nell'Android SDK sono presenti poi le API di Google.</p>
 	
   <!--
-      | Components
+      |
+      | COMPONENTS
+      |
   -->
   <h2>I componenti</h2>
   
@@ -146,6 +152,15 @@
   <h3>User Inputs</h3>
   <p>I componenti che si usano per poter far interagire l'utente con l'app sono: Button, Text field, Seek bar (tipo barra di avanzamento canzone), Checkboxes, Radio buttons, Toggle (pulsante on/off), Spinner (menu a tendina), Pickers (tipo time pickers).</p>
   
+  <!--
+      | Collection Views e Adapters
+  -->
+  <h3>Collection Views e Adapters</h3>
+  <p class="arcticle-link"><a href="https://code.tutsplus.com/tutorials/android-from-scratch-understanding-adapters-and-adapter-views--cms-26646">Understanding Adapters and Adapter Views</a></p>
+  <p>L'<b>Adapter</b> è l'oggetto di una classe che implementa l'interfaccia Adapter ed è il responsabile di ricevere i dati da un data set (come un array, una lista, o un cursor) e generare delle view basate su quei dati. Quindi per esempio prenderà una lista di messaggi da un array e per ognuno creerà un box da da inserire in un <b>AdapterVIew</b> (come per esempio una ListView o GridView detti anche Collection Views) e poi mostrare all'utente.</p>
+  <p>Posso crearmi da solo una classe che implementa Adapter ma è più semplice usare quelle già messe a disposizione dall'Android SDK, come <b>ArrayAdapter</b> e <b>SimpleCursorAdapter</b>.</p>
+  <br>
+  <p></p>
 	
 	<div class="links">
 	  <ul>
