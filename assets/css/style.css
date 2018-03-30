@@ -1,23 +1,20 @@
 /* CSS Document */
-/* line 2, style.scss */
 body {
+	width: 80%;
+	margin: 0 auto;
+	
   font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
   color: #555; }
 
-/* line 7, style.scss */
 p {
   margin: 0;
   padding: 0; }
 
-/* line 12, style.scss */
 h2 {
   margin: 30px 0 10px 0;
   padding: 0;
   color: coral; }
 
-/* line 19, style.scss */
-.code_block {
+.hljs {
   margin: 10px 0;
-  width: 100%;
-  padding: 10px 20px;
-  background: #eee; }
+  padding: 10px 20px; }
