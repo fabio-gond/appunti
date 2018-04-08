@@ -19,8 +19,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androids
       | Riproduzione Audio Files
       |
   -->
-	<h2 data-sc="audio">Riproduzione Audio Files</h2>
-  <section class="big-section" data-sc="audio-sec">
+	<h2 data-extend="audio" class="js-extend">Riproduzione Audio Files</h2>
+  <section class="big-section invisible" data-extend="audio-sec">
 
 		<p>Ricordarsi di seguire questi passi.</p>
 
@@ -32,32 +32,32 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androids
 		<p>Ricordarsi di fare il <b>release()</b> del MediaPlayer prima di assegnargli un nuovo audio, dopo averlo riprodotto,
 			e in <code>onStop()</code> se voglio che smetta di suonare quando l'utente apre un altra app.</p>
 		<pre><code class="hljs java">
-	private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mediaPlayer) {
-					releaseMediaPlayer();
-			}
-	};
+private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        releaseMediaPlayer();
+    }
+};
 
-	/**
-	 * Clean up the media player by releasing its resources.
-	 */
-	private void releaseMediaPlayer() {
-			// If the media player is not null, then it may be currently playing a sound.
-			if (mediaPlayer != null) {
-					// Regardless of the current state of the media player, release its resources
-					// because we no longer need it.
-					mediaPlayer.release();
+/**
+ * Clean up the media player by releasing its resources.
+ */
+private void releaseMediaPlayer() {
+    // If the media player is not null, then it may be currently playing a sound.
+    if (mediaPlayer != null) {
+        // Regardless of the current state of the media player, release its resources
+        // because we no longer need it.
+        mediaPlayer.release();
 
-					// Set the media player back to null. For our code, we've decided that
-					// setting the media player to null is an easy way to tell that the media player
-					// is not configured to play an audio file at the moment.
-					mediaPlayer = null;
+        // Set the media player back to null. For our code, we've decided that
+        // setting the media player to null is an easy way to tell that the media player
+        // is not configured to play an audio file at the moment.
+        mediaPlayer = null;
 
-					// Release audio focus
-					audioManager.abandonAudioFocus(afChangeListener);
-			}
-	}  
+        // Release audio focus
+        audioManager.abandonAudioFocus(afChangeListener);
+    }
+}  
 		</code></pre>
 
 		<h3>Controllare l'Audio Focus</h3>

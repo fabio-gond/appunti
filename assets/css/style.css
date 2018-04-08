@@ -1,20 +1,38 @@
-/* CSS Document */
+@charset "UTF-8";
+/* line 4, style.scss */
 body {
-	width: 80%;
-	margin: 0 auto;
-	
+  width: 80%;
+  margin: 0 auto;
   font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
   color: #555; }
 
+/* line 11, style.scss */
 p {
   margin: 0;
   padding: 0; }
 
+/* line 15, style.scss */
 h2 {
   margin: 30px 0 10px 0;
   padding: 0;
   color: coral; }
 
+/* line 22, style.scss */
 .hljs {
   margin: 10px 0;
   padding: 10px 20px; }
+
+/* line 26, style.scss */
+.js-extend {
+  cursor: pointer; }
+
+/* Sezione di appunti che all'inizio è invisibile,
+ma diventa visibile al click sul titolo della sezione*/
+/* line 34, style.scss */
+.big-section {
+  overflow: hidden;
+  max-height: 100%; }
+
+/* line 39, style.scss */
+.invisible {
+  max-height: 0; }
